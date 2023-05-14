@@ -14,6 +14,7 @@ import java.awt.event.WindowStateListener;
  */
 public class tulis_menu extends javax.swing.JFrame {
   tulis_session session = new tulis_session();
+  tulis_image image = new tulis_image();
     /**
      * Creates new form tulis_menu
      */
@@ -26,13 +27,16 @@ public class tulis_menu extends javax.swing.JFrame {
         System.out.println(this.getState());
         session.main(new String[] {"args"});
         this.text_namaguru.setText(session.getNama());
+        String path = "/tulisnilai/Wajah-Saya.JPG";
+        ImageIcon icon = image.setIcon(path);
+        icon_fotoprofil.setIcon(icon);
     }
 
     private void statemenu(){
         if(this.getExtendedState()== Frame.MAXIMIZED_BOTH){
         panel_menu.setLayout(new GridBagLayout());
         GridBagConstraints option = new GridBagConstraints();
-      //  option.fill = GridBagConstraints.HORIZONTAL;
+        option.insets = new Insets(200,0,0,0);  //top padding
         option.anchor = GridBagConstraints.FIRST_LINE_START;
         option.ipadx  = 400;
         option.ipady  = 120;
@@ -41,38 +45,34 @@ public class tulis_menu extends javax.swing.JFrame {
         panel_menu.add(btn_temp1, option);
         option.gridx = 1;
         option.gridy = 0;
-       // option.fill = GridBagConstraints.HORIZONTAL;
         option.anchor = GridBagConstraints.PAGE_START;
         panel_menu.add(btn_temp2, option);
         option.gridx = 0;
         option.gridy = 1;
-        //option.fill = GridBagConstraints.HORIZONTAL;
+        option.insets = new Insets(0,0,0,0);  //top padding
         option.anchor = GridBagConstraints.LINE_START;
         panel_menu.add(btn_temp3, option);
         option.gridx = 1;
         option.gridy = 1;
-       // option.fill = GridBagConstraints.HORIZONTAL;
         option.anchor = GridBagConstraints.CENTER;
         panel_menu.add(btn_temp4, option);
         } else  if(this.getExtendedState()== Frame.NORMAL){
         panel_menu.setLayout(new GridBagLayout());
         GridBagConstraints option = new GridBagConstraints();
-        option.insets = new Insets(71,0,0,0);  //top padding
+        option.insets = new Insets(50,0,0,10);  //top padding
         option.anchor = GridBagConstraints.FIRST_LINE_START;
-        option.ipadx  = 192;
-        option.ipady  = 55;
+        option.ipadx  = 180;
+        option.ipady  = 50;
         option.gridx = 0;
         option.gridy = 0;
         panel_menu.add(btn_temp1, option);
-        option.insets = new Insets(18,0,0,0);  //top padding
+        option.insets = new Insets(12,0,0,0);  //top padding
         option.gridx = 0;
         option.gridy = 1;
-       // option.fill = GridBagConstraints.HORIZONTAL;
         option.anchor = GridBagConstraints.LINE_START;
         panel_menu.add(btn_temp2, option);
         option.gridx = 0;
         option.gridy = 2;
-        //option.fill = GridBagConstraints.HORIZONTAL;
         option.anchor = GridBagConstraints.LAST_LINE_START;
         panel_menu.add(btn_temp3, option);
         option.gridx = 0;
@@ -104,13 +104,13 @@ public class tulis_menu extends javax.swing.JFrame {
         text_namaguru = new javax.swing.JLabel();
         text_nuptkguru = new javax.swing.JLabel();
         text_pengajar = new javax.swing.JLabel();
-        panel_logout = new javax.swing.JPanel();
-        btn_logout = new javax.swing.JButton();
         panel_menu = new javax.swing.JPanel();
         btn_temp1 = new javax.swing.JButton();
         btn_temp2 = new javax.swing.JButton();
         btn_temp3 = new javax.swing.JButton();
         btn_temp4 = new javax.swing.JButton();
+        panel_logout = new javax.swing.JPanel();
+        btn_logout = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -219,28 +219,6 @@ public class tulis_menu extends javax.swing.JFrame {
                 .addGap(214, 214, 214))
         );
 
-        panel_logout.setBackground(new java.awt.Color(145, 216, 228));
-
-        btn_logout.setBackground(new java.awt.Color(255, 51, 51));
-        btn_logout.setText("Logout");
-
-        javax.swing.GroupLayout panel_logoutLayout = new javax.swing.GroupLayout(panel_logout);
-        panel_logout.setLayout(panel_logoutLayout);
-        panel_logoutLayout.setHorizontalGroup(
-            panel_logoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_logoutLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btn_logout)
-                .addContainerGap())
-        );
-        panel_logoutLayout.setVerticalGroup(
-            panel_logoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_logoutLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btn_logout)
-                .addGap(31, 31, 31))
-        );
-
         panel_menu.setBackground(new java.awt.Color(145, 216, 228));
 
         btn_temp1.addActionListener(new java.awt.event.ActionListener() {
@@ -266,13 +244,13 @@ public class tulis_menu extends javax.swing.JFrame {
         panel_menuLayout.setHorizontalGroup(
             panel_menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel_menuLayout.createSequentialGroup()
-                .addGap(37, 37, 37)
+                .addContainerGap(15, Short.MAX_VALUE)
                 .addGroup(panel_menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btn_temp1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btn_temp3, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
-                    .addComponent(btn_temp2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btn_temp4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(28, 28, 28))
+                    .addComponent(btn_temp1, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_temp3, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_temp2, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_temp4, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
         panel_menuLayout.setVerticalGroup(
             panel_menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -288,6 +266,33 @@ public class tulis_menu extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        panel_logout.setBackground(new java.awt.Color(145, 216, 228));
+
+        btn_logout.setBackground(new java.awt.Color(255, 51, 51));
+        btn_logout.setText("Logout");
+        btn_logout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_logoutActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panel_logoutLayout = new javax.swing.GroupLayout(panel_logout);
+        panel_logout.setLayout(panel_logoutLayout);
+        panel_logoutLayout.setHorizontalGroup(
+            panel_logoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_logoutLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btn_logout)
+                .addContainerGap())
+        );
+        panel_logoutLayout.setVerticalGroup(
+            panel_logoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_logoutLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btn_logout)
+                .addGap(31, 31, 31))
+        );
+
         javax.swing.GroupLayout main_panelLayout = new javax.swing.GroupLayout(main_panel);
         main_panel.setLayout(main_panelLayout);
         main_panelLayout.setHorizontalGroup(
@@ -296,21 +301,20 @@ public class tulis_menu extends javax.swing.JFrame {
                 .addComponent(panel_profile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(main_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(main_panelLayout.createSequentialGroup()
+                    .addComponent(panel_menu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, main_panelLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(panel_logout, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(panel_menu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(panel_logout, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         main_panelLayout.setVerticalGroup(
             main_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panel_profile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panel_profile, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             .addGroup(main_panelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(panel_menu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(panel_logout, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30))
+                .addComponent(panel_menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                .addComponent(panel_logout, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jMenuBar1.setName("Tulis Menu"); // NOI18N
@@ -354,6 +358,10 @@ public class tulis_menu extends javax.swing.JFrame {
     private void btn_temp4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_temp4ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_temp4ActionPerformed
+
+    private void btn_logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_logoutActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_logoutActionPerformed
 
     /**
      * @param args the command line arguments
