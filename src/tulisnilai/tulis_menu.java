@@ -13,7 +13,7 @@ import java.awt.event.WindowStateListener;
  * @author Fikri
  */
 public class tulis_menu extends javax.swing.JFrame {
-
+  tulis_session session = new tulis_session();
     /**
      * Creates new form tulis_menu
      */
@@ -24,6 +24,8 @@ public class tulis_menu extends javax.swing.JFrame {
         this.setState(MAXIMIZED_BOTH);
         System.out.println(this.getExtendedState());
         System.out.println(this.getState());
+        session.main(new String[] {"args"});
+        this.text_namaguru.setText(session.getNama());
     }
 
     private void statemenu(){
@@ -99,7 +101,7 @@ public class tulis_menu extends javax.swing.JFrame {
         text_nuptkguru1 = new javax.swing.JLabel();
         text_nuptk = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        text_namaguru1 = new javax.swing.JLabel();
+        text_namaguru = new javax.swing.JLabel();
         text_nuptkguru = new javax.swing.JLabel();
         text_pengajar = new javax.swing.JLabel();
         panel_logout = new javax.swing.JPanel();
@@ -145,7 +147,7 @@ public class tulis_menu extends javax.swing.JFrame {
         jLabel13.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jLabel13.setText("Nama              :");
 
-        text_namaguru1.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        text_namaguru.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
 
         text_nuptkguru.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
 
@@ -167,7 +169,7 @@ public class tulis_menu extends javax.swing.JFrame {
                             .addComponent(text_nuptk, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panel_profileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(text_namaguru1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(text_namaguru, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(panel_profileLayout.createSequentialGroup()
                                 .addComponent(text_nuptkguru, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))))
@@ -195,7 +197,7 @@ public class tulis_menu extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(panel_profileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel13)
-                    .addComponent(text_namaguru1, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(text_namaguru, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(panel_profileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(text_nuptk)
@@ -406,7 +408,7 @@ public class tulis_menu extends javax.swing.JFrame {
     private javax.swing.JPanel panel_logout;
     private javax.swing.JPanel panel_menu;
     private javax.swing.JPanel panel_profile;
-    private javax.swing.JLabel text_namaguru1;
+    private javax.swing.JLabel text_namaguru;
     private javax.swing.JLabel text_namaguru2;
     private javax.swing.JLabel text_nuptk;
     private javax.swing.JLabel text_nuptk1;

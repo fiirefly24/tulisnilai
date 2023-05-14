@@ -259,17 +259,18 @@ public class tulis_login extends javax.swing.JFrame {
             if ("guru".equals(result.getString("role"))) {
                 ResultSet guru = connect.executeQuery("SELECT * FROM guru WHERE id ='"+result.getString(1)+"'");
                 guru.next();
-                session.setSession(guru.getString("id"));
-                System.err.println();
+                session.setSession(guru.getString("id"),"guru");
                 this.setVisible(false);
                 new tulis_menu().setVisible(true);
+                guru.close();
             } else if( "operator".equals(result.getString(3))) {
                 ResultSet operator = connect.executeQuery("SELECT * FROM operator WHERE id ='"+result.getString(1)+"'");
                 operator.next();
-                session.setSession(operator.getString("id"));
+                session.setSession(operator.getString("id"),"operator");
                 
                 this.setVisible(false);
                 new tulis_menu().setVisible(true);
+                operator.close();
             }
 
         } catch (Exception e) {
