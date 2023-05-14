@@ -11,14 +11,14 @@ import java.sql.*;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import connection.connect_db;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Fikri
  */
 public class tulis_login extends javax.swing.JFrame {
-
-    
+    tulis_session session;
     /**
      * Creates new form login
      */
@@ -251,21 +251,29 @@ public class tulis_login extends javax.swing.JFrame {
     private void btn_loginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_loginMouseClicked
         // TODO add your handling code here:
         try {
-            //String db = "SELECT * FROM guru WHERE id='"+tf_id1.getText()+"' AND password='"+tf_password.getText()+"'";
-            String db = "SELECT * FROM guru WHERE id='"+tf_id1.getText()+"' AND password='"+tf_password.getText()+"'";
+            String login = "SELECT id, password, 'guru' AS role FROM guru WHERE id = '"+tf_id1.getText()+"' AND password = '"+tf_password.getText()+"' UNION SELECT id, password, 'operator' AS role FROM operator WHERE id = '"+tf_id1.getText()+"' AND password = '"+tf_password.getText()+"'";
             Statement connect = new connect_db().connect().createStatement();
-            ResultSet result = connect.executeQuery(db);
-            if (result.next()) {
-                System.out.println(result.getString(1));
-                System.out.println(result.getString(2));
-                System.out.println(result.getString(3));
-                System.out.println(result.getString(4));
-                System.out.println(result.getString(5));
+            ResultSet result = connect.executeQuery(login);
+            result.next();
+            //Check apakah yang login adalah guru atau operator
+            if ("guru".equals(result.getString("role"))) {
+                ResultSet guru = connect.executeQuery("SELECT * FROM guru WHERE id ='"+result.getString(1)+"'");
+                guru.next();
+                session.setSession(guru.getString("id"));
+                System.err.println();
                 this.setVisible(false);
                 new tulis_menu().setVisible(true);
-            } else {
+            } else if( "operator".equals(result.getString(3))) {
+                ResultSet operator = connect.executeQuery("SELECT * FROM operator WHERE id ='"+result.getString(1)+"'");
+                operator.next();
+                session.setSession(operator.getString("id"));
+                
+                this.setVisible(false);
+                new tulis_menu().setVisible(true);
             }
+
         } catch (Exception e) {
+            System.err.println(e);
         }
     }//GEN-LAST:event_btn_loginMouseClicked
 
