@@ -6,6 +6,7 @@ package tulisnilai;
 
 import connection.connect_db;
 import java.awt.Image;
+import java.awt.Panel;
 import java.awt.geom.RoundRectangle2D;
 import java.io.File;
 import java.io.IOException;
@@ -498,6 +499,11 @@ private Connection connect = new connect_db().connect();
         btn_delete.setBackground(new java.awt.Color(145, 216, 228));
         btn_delete.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         btn_delete.setText("Hapus");
+        btn_delete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_deleteActionPerformed(evt);
+            }
+        });
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/tulisnilai/TulisNilaiAsset 3.png"))); // NOI18N
 
@@ -851,6 +857,32 @@ private Connection connect = new connect_db().connect();
         // TODO add your handling code here:
         clear();
     }//GEN-LAST:event_btn_resetMouseClicked
+
+    
+    private void btn_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_deleteActionPerformed
+        // TODO add your handling code here:
+        //Get ID from selected tabel
+        int row = tabel_guru.getSelectedRow();
+        String id = table.getValueAt(row, 0).toString();
+        
+        //Define SQL Command to Delete Data
+        String delete = "delete from guru where id like '"+id+"'";
+        int confirm = JOptionPane.showConfirmDialog(jPanel1, "Do you want to proceed?", "Select an Option...",
+                JOptionPane.YES_NO_OPTION, JOptionPane.YES_NO_OPTION);
+        if (confirm == JOptionPane.YES_OPTION){
+            try{
+                PreparedStatement state = connect.prepareStatement(delete);
+
+                state.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Data successfully deleted");
+                clear();
+                datatable();
+            }
+            catch(SQLException e){
+                JOptionPane.showMessageDialog(null, "Data failed to be deleted");
+            }
+        }
+    }//GEN-LAST:event_btn_deleteActionPerformed
 
     /** protected void focus(){
         //Focus to text field nama because we're gonna use AutoIncreement on ID so do not need to input it manually
