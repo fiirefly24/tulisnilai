@@ -8,6 +8,7 @@ import connection.connect_db;
 import java.awt.Image;
 import java.awt.geom.RoundRectangle2D;
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,6 +19,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -36,6 +40,8 @@ private Connection connect = new connect_db().connect();
     public tulis_guru() {
         initComponents();
         dialog_tambah.setLocationRelativeTo(this);
+        radio_walino.setSelected(true);
+        radio_laki.setSelected(true);
         mapel();
         datatable();
     }
@@ -89,6 +95,7 @@ private Connection connect = new connect_db().connect();
         textarea_alamat = new javax.swing.JTextArea();
         jLabel20 = new javax.swing.JLabel();
         text_destinationfile = new javax.swing.JLabel();
+        text_filepath = new javax.swing.JLabel();
         jScrollBar1 = new javax.swing.JScrollBar();
         buttonGroup1 = new javax.swing.ButtonGroup();
         jDateChooserCellEditor1 = new com.toedter.calendar.JDateChooserCellEditor();
@@ -123,13 +130,11 @@ private Connection connect = new connect_db().connect();
         dialog_tambah.setBackground(new java.awt.Color(145, 216, 228));
         dialog_tambah.setForeground(java.awt.Color.white);
         dialog_tambah.setIconImage(null);
-        dialog_tambah.setMinimumSize(new java.awt.Dimension(830, 630));
+        dialog_tambah.setMinimumSize(new java.awt.Dimension(832, 681));
         dialog_tambah.setModalExclusionType(java.awt.Dialog.ModalExclusionType.APPLICATION_EXCLUDE);
         dialog_tambah.setModalityType(java.awt.Dialog.ModalityType.APPLICATION_MODAL);
-        dialog_tambah.setPreferredSize(new java.awt.Dimension(830, 630));
 
         jPanel2.setBackground(new java.awt.Color(145, 216, 228));
-        jPanel2.setMinimumSize(new java.awt.Dimension(830, 584));
 
         jLabel6.setFont(new java.awt.Font("SansSerif", 3, 24)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(70, 59, 133));
@@ -192,6 +197,11 @@ private Connection connect = new connect_db().connect();
         });
 
         btn_reset.setText("Ulang");
+        btn_reset.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_resetMouseClicked(evt);
+            }
+        });
 
         btn_cancel.setText("Batal");
         btn_cancel.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -210,6 +220,8 @@ private Connection connect = new connect_db().connect();
 
         jLabel16.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jLabel16.setText("Wali Kelas");
+
+        tf_walikelas.setEnabled(false);
 
         radio_wali.add(radio_waliyes);
         radio_waliyes.setText("Ya");
@@ -250,8 +262,6 @@ private Connection connect = new connect_db().connect();
         jLabel18.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jLabel18.setText("Mata Pelajaran");
 
-        combo_mapel.setSelectedIndex(-1);
-
         textarea_alamat.setColumns(20);
         textarea_alamat.setRows(5);
         jScrollPane2.setViewportView(textarea_alamat);
@@ -260,6 +270,9 @@ private Connection connect = new connect_db().connect();
         jLabel20.setText("Alamat");
 
         text_destinationfile.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        text_destinationfile.setForeground(new java.awt.Color(145, 216, 228));
+
+        text_filepath.setForeground(new java.awt.Color(145, 216, 228));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -336,13 +349,14 @@ private Connection connect = new connect_db().connect();
                             .addComponent(combo_agama, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(tf_tempatlahir, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(111, 111, 111)
-                                .addComponent(btn_pic))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(23, 23, 23)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(text_destinationfile, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(foto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(foto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(text_filepath, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(text_destinationfile, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btn_pic)))))
                         .addGap(51, 51, 51))))
         );
         jPanel2Layout.setVerticalGroup(
@@ -350,17 +364,14 @@ private Connection connect = new connect_db().connect();
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(16, 16, 16)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(radio_laki)
-                                    .addComponent(radio_perempuan))))
-                        .addGap(18, 18, 18)
+                            .addComponent(radio_laki)
+                            .addComponent(radio_perempuan))
+                        .addGap(21, 21, 21)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel8)
                             .addComponent(combo_agama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -374,17 +385,32 @@ private Connection connect = new connect_db().connect();
                             .addComponent(jLabel10))
                         .addGap(18, 18, 18)
                         .addComponent(foto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(text_destinationfile))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(text_destinationfile))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btn_pic)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(text_filepath))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(34, 34, 34)
+                                .addComponent(jLabel2)
+                                .addGap(29, 29, 29)
+                                .addComponent(jLabel15)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel16))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(tf_nuptk, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(tf_nama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(21, 21, 21)
                                 .addComponent(tf_notelp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(22, 22, 22)
+                                .addGap(18, 18, 18)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(radio_waliyes)
                                     .addComponent(radio_walino))
@@ -393,15 +419,7 @@ private Connection connect = new connect_db().connect();
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(tf_kelas1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel17)))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel2)
-                                .addGap(24, 24, 24)
-                                .addComponent(jLabel15)
-                                .addGap(28, 28, 28)
-                                .addComponent(jLabel16)))
+                                    .addComponent(jLabel17))))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel18)
@@ -422,9 +440,8 @@ private Connection connect = new connect_db().connect();
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel20))))
-                .addGap(0, 42, Short.MAX_VALUE)
+                .addGap(0, 47, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_pic)
                     .addComponent(btn_tambah)
                     .addComponent(btn_reset)
                     .addComponent(btn_cancel))
@@ -681,7 +698,6 @@ private Connection connect = new connect_db().connect();
     private void btn_picMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_picMouseClicked
         // TODO add your handling code here:
         try {
-            String filepath;
             JFileChooser upload = new JFileChooser();
             upload.showOpenDialog(dialog_tambah);
             File file = upload.getSelectedFile();
@@ -689,32 +705,11 @@ private Connection connect = new connect_db().connect();
             Image image = icon.getImage().getScaledInstance(foto.getWidth(), foto.getHeight(), Image.SCALE_SMOOTH);
             ImageIcon newIcon = new ImageIcon(image);
             foto.setIcon(newIcon);
-
-            filepath = file.getAbsolutePath();
-            String newPath = "src/assets/";
-            File dir = new File(newPath);
-            if (!dir.exists()){
-                dir.mkdirs();
-            }
-            File sourceFile = null;
-            File destinationFile = null;
-            String extension = filepath.substring(filepath.lastIndexOf('.')+1);
-            sourceFile = new File(filepath);
-            Date tanggal = new Date();
-            String date_display = "yyyyMMddhhmmss";
-            SimpleDateFormat fm = new SimpleDateFormat(date_display);
-            String tanggal1 = String.valueOf(fm.format(tanggal));
-            destinationFile = new File(newPath+"/newimage"+tanggal1.toString() +"."+extension);
-            
-            text_destinationfile.setText("/assets/newimage"+tanggal1.toString() +"."+extension);
-
-            Files.copy(sourceFile.toPath(), destinationFile.toPath());
-
+            text_filepath.setText(file.getAbsolutePath());
         } catch (Exception e) {
-            System.out.println("tulisnilai.tulis_guru.btn_picMouseClicked()");
             System.out.println(e);
         }
-
+        
     }//GEN-LAST:event_btn_picMouseClicked
 
     private void radio_walinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radio_walinoActionPerformed
@@ -779,9 +774,14 @@ private Connection connect = new connect_db().connect();
         
         if (!password.equals(verif_pass)) {
             text_warning.setText("Pastikan password yang dimasukan sama~!");
+        } else if (password.isEmpty()){
+            text_warning.setText("Password tidak boleh kosong!");
+        } else if (tf_nuptk.getText() == null){
+            text_warning.setText("NUPTK tidak boleh kosong!");
         } else {
             String input = "insert into guru value (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
             try{
+                //input into database
                 PreparedStatement state = connect.prepareStatement(input);
                 state.setString(1, tf_nuptk.getText());
                 state.setString(2, password);
@@ -805,15 +805,36 @@ private Connection connect = new connect_db().connect();
                 state.setString(13, (String)combo_mapel.getSelectedItem());
                 state.setInt(14, 0);
                 state.setInt(15, 0);
-
                 state.executeUpdate();
-                JOptionPane.showMessageDialog(null, "Data successfully inserted into the database");
+                JOptionPane.showMessageDialog(dialog_tambah, "Data successfully inserted into the database");
+                
+                //Copy Image into Project
+                String filepath;
+                filepath = text_filepath.getText();
+                String newPath = "src/assets/";
+                File dir = new File(newPath);
+                if (!dir.exists()){
+                    dir.mkdirs();
+                }
+                File sourceFile = null;
+                File destinationFile = null;
+                String extension = filepath.substring(filepath.lastIndexOf('.')+1);
+                sourceFile = new File(filepath);
+                Date tanggal = new Date();
+                String date_display = "yyyyMMddhhmmss";
+                SimpleDateFormat fm = new SimpleDateFormat(date_display);
+                String tanggal1 = String.valueOf(fm.format(tanggal));
+                destinationFile = new File(newPath+"/newimage"+tanggal1+"."+extension);
+
+                text_destinationfile.setText("/assets/newimage"+tanggal1+"."+extension);
+
+                Files.copy(sourceFile.toPath(), destinationFile.toPath());
                 dialog_tambah.dispose();
-               // clear();
-               // focus();
             }
             catch(SQLException e){
-                JOptionPane.showMessageDialog(null, "Data failed to be inserted into the database " + e);
+                JOptionPane.showMessageDialog(dialog_tambah, "Data failed to be inserted into the database " + e);
+            } catch (IOException ex) {
+                Logger.getLogger(tulis_guru.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_btn_tambahMouseClicked
@@ -826,20 +847,36 @@ private Connection connect = new connect_db().connect();
         // TODO add your handling code here:
     }//GEN-LAST:event_radio_perempuanActionPerformed
 
+    private void btn_resetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_resetMouseClicked
+        // TODO add your handling code here:
+        clear();
+    }//GEN-LAST:event_btn_resetMouseClicked
+
     /** protected void focus(){
         //Focus to text field nama because we're gonna use AutoIncreement on ID so do not need to input it manually
         textfield_nama.requestFocus();
-    }
+    }**/
     
-    Define Method
+    //Define Method
     protected void clear(){
-        textfield_id.setText("");
-        textfield_nama.setText("");
-        textfield_telepon.setText("");
-        textarea_alamat.setText("");
+        tf_cari.setText(null);
+        tf_kelas1.setText(null);
+        tf_notelp.setText(null);
+        tf_walikelas.setText(null);
+        tf_nuptk.setText(null);
+        tf_nama.setText(null);
+        tf_tempatlahir.setText(null);
+        textarea_alamat.setText(null);
         buttonGroup1.clearSelection();
+        radio_wali.clearSelection();
+        pf_password.setText(null);
+        pf_verifpass.setText(null);
+        combo_agama.setSelectedIndex(-1);
+        combo_mapel.setSelectedIndex(-1);
+        date_chooser.setDate(null);
+        foto.setIcon(null);
+        
     }
-    **/
     
     /**
      * @param args the command line arguments
@@ -931,6 +968,7 @@ private Connection connect = new connect_db().connect();
     private javax.swing.JRadioButton radio_waliyes;
     private javax.swing.JTable tabel_guru;
     private javax.swing.JLabel text_destinationfile;
+    private javax.swing.JLabel text_filepath;
     private javax.swing.JLabel text_namaguru1;
     private javax.swing.JLabel text_namaguru2;
     private javax.swing.JLabel text_nuptk;
